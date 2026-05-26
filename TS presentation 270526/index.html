@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Tæl Skridt — Analyse og plan frem mod TS3 2026</title>
+    <meta name="viewport" content="width=1280, initial-scale=1">
+
+    <!-- Reveal.js core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+
+    <!-- Montserrat font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ts-navy: #16293E;
+            --ts-orange: #EC9535;
+            --ts-green: #3FAC4E;
+            --ts-pale-blue: #E0ECFF;
+            --ts-peach: #FFE8CE;
+            --ts-grey: #9E9E9E;
+            --ts-text: #16293E;
+        }
+
+        html, body {
+            font-family: 'Montserrat', system-ui, sans-serif;
+        }
+
+        .reveal {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            font-size: 28px;
+            color: var(--ts-text);
+        }
+
+        .reveal .slides {
+            text-align: left;
+        }
+
+        .reveal .slides section {
+            padding: 40px 60px;
+            height: 100%;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            color: var(--ts-navy);
+            text-transform: none;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h1 { font-size: 2.4em; line-height: 1.1; }
+        .reveal h2 { font-size: 1.6em; line-height: 1.15; }
+        .reveal h3 { font-size: 1.1em; line-height: 1.2; font-weight: 700; }
+
+        .reveal p { font-weight: 400; line-height: 1.5; margin-bottom: 0.6em; }
+        .reveal strong { font-weight: 700; color: var(--ts-navy); }
+        .reveal em { font-style: italic; color: var(--ts-grey); }
+
+        .reveal ul, .reveal ol {
+            display: block;
+            list-style-position: outside;
+            margin-left: 1em;
+        }
+        .reveal li { line-height: 1.5; margin-bottom: 0.4em; }
+        .reveal li::marker { color: var(--ts-orange); }
+
+        /* Slide header (top bar with small logo) */
+        .slide-header {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--ts-grey);
+            font-weight: 500;
+        }
+        .slide-header img { height: 28px; }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 16px;
+            left: 60px;
+            right: 60px;
+            font-size: 12px;
+            color: var(--ts-grey);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 400;
+        }
+
+        /* SLIDE 1: Title */
+        .title-slide {
+            background: linear-gradient(135deg, #FAFCFF 0%, var(--ts-pale-blue) 100%);
+        }
+        .title-slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+        .title-slide .logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+        .title-slide .logos img {
+            height: 90px;
+            object-fit: contain;
+        }
+        .title-slide h1 {
+            font-size: 3em;
+            line-height: 1.05;
+            margin-bottom: 0.3em;
+            text-align: center;
+        }
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: var(--ts-navy);
+            font-weight: 500;
+            margin-bottom: 1em;
+        }
+        .title-slide .meta {
+            font-size: 0.7em;
+            color: var(--ts-grey);
+            font-weight: 400;
+        }
+
+        /* Two-column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 2px solid var(--ts-pale-blue);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(22, 41, 62, 0.05);
+        }
+        .card.accent {
+            border-color: var(--ts-orange);
+            background: var(--ts-peach);
+        }
+        .card.navy {
+            background: var(--ts-navy);
+            color: white;
+        }
+        .card.navy h2, .card.navy h3 { color: white; }
+        .card.navy strong { color: var(--ts-orange); }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
+        .card p, .card ul {
+            font-size: 0.78em;
+            line-height: 1.45;
+        }
+        .card ul { margin-left: 1em; }
+        .card li { margin-bottom: 0.3em; }
+
+        /* Stats blocks */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat {
+            text-align: center;
+            padding: 20px 12px;
+            background: white;
+            border-radius: 8px;
+            border-top: 4px solid var(--ts-orange);
+        }
+        .stat .number {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: var(--ts-navy);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat .label {
+            font-size: 0.55em;
+            color: var(--ts-grey);
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        /* Phase timeline */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 30px;
+        }
+        .timeline .phase {
+            padding: 16px 14px;
+            border-radius: 8px;
+            font-size: 0.75em;
+        }
+        .timeline .phase-1 { background: var(--ts-pale-blue); }
+        .timeline .phase-2 { background: var(--ts-peach); }
+        .timeline .phase-3 { background: #FFD89B; }
+        .timeline .phase-4 { background: #C8E6C9; }
+        .timeline .phase-num {
+            font-weight: 900;
+            font-size: 0.85em;
+            color: var(--ts-navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .timeline .phase-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        .timeline .phase-dates {
+            color: var(--ts-grey);
+            font-size: 0.8em;
+            margin-bottom: 8px;
+        }
+        .timeline .phase-desc {
+            font-size: 0.82em;
+            line-height: 1.35;
+        }
+
+        /* Priorities list */
+        .priorities {
+            margin-top: 20px;
+        }
+        .priority {
+            display: flex;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ts-pale-blue);
+        }
+        .priority:last-child { border-bottom: none; }
+        .priority .num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--ts-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.85em;
+        }
+        .priority .text {
+            font-size: 0.78em;
+            line-height: 1.45;
+        }
+        .priority .text strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1.1em;
+        }
+
+        /* Download slide */
+        .download-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            background: linear-gradient(135deg, #FAFCFF 0%, var(--ts-pale-blue) 100%);
+        }
+        .download-slide h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.4em;
+        }
+        .download-slide p {
+            font-size: 0.85em;
+            max-width: 700px;
+            margin: 0 auto 32px;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--ts-orange);
+            color: white;
+            text-decoration: none;
+            padding: 22px 44px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 12px rgba(236, 149, 53, 0.3);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(236, 149, 53, 0.4);
+        }
+        .download-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+        .next-steps {
+            margin-top: 50px;
+            max-width: 700px;
+        }
+        .next-steps h3 {
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+        .next-steps ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.75em;
+            color: var(--ts-navy);
+        }
+        .next-steps li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(22, 41, 62, 0.1);
+        }
+        .next-steps li:last-child { border-bottom: none; }
+
+        /* Data sources slide */
+        .data-source {
+            background: white;
+            border-left: 5px solid var(--ts-orange);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .data-source h3 {
+            margin: 0 0 6px 0;
+            font-size: 0.95em;
+        }
+        .data-source p {
+            margin: 0;
+            font-size: 0.75em;
+            line-height: 1.45;
+        }
+        .data-source .meta-line {
+            font-size: 0.65em;
+            color: var(--ts-grey);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* Friction page list */
+        .friction-list {
+            margin-top: 20px;
+        }
+        .friction-item {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ts-pale-blue);
+        }
+        .friction-item:last-child { border-bottom: none; }
+        .friction-item .page {
+            font-weight: 700;
+            color: var(--ts-navy);
+            font-size: 0.85em;
+        }
+        .friction-item .signal {
+            font-size: 0.75em;
+            line-height: 1.45;
+        }
+        .friction-item .signal strong { color: var(--ts-orange); }
+
+        /* Hjerteforeningen angle slide */
+        .quote-block {
+            background: white;
+            border-left: 5px solid var(--ts-orange);
+            padding: 20px 24px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        /* Slide numbering visibility */
+        .reveal .progress {
+            color: var(--ts-orange);
+            height: 4px;
+        }
+        .reveal .slide-number {
+            background: rgba(22, 41, 62, 0.7);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Slide 3: compact — remove excess vertical space */
+        .slide-3 h2 { margin-bottom: 0.2em; }
+        .slide-3 > p { margin-bottom: 0.3em; }
+        .slide-3 .stat-row { margin: 16px 0; gap: 16px; }
+        .slide-3 .stat { padding: 14px 10px; }
+        .slide-3 .stat .number { font-size: 1.9em; }
+        .slide-3 .two-col { margin-top: 12px; }
+
+        /* Slide 6: compact */
+        .slide-6 h2 { margin-bottom: 0.15em; }
+        .slide-6 .quote-block { padding: 14px 20px; margin: 11px 0; }
+        .slide-6 .two-col { margin-top: 10px; }
+        .slide-6 .two-col .card ul { font-size: 0.73em; }
+        .slide-6 .two-col h3 { margin-bottom: 10px; }
+
+        /* Slide 7: compact */
+        .slide-7 h2 { margin-bottom: 0.15em; }
+        .slide-7 > p { margin-bottom: 0.25em; }
+        .slide-7 .timeline { margin-top: 18px; gap: 6px; }
+        .slide-7 .timeline .phase { padding: 13px 12px; }
+        .slide-7 .timeline .phase-dates { margin-bottom: 5px; }
+        .slide-7 .three-col { margin-top: 16px; gap: 16px; }
+        .slide-7 .three-col .card { padding: 18px 20px; }
+
+        /* Slide 8: next-steps 2-column grid */
+        .next-steps.wide { max-width: 820px; width: 100%; margin-left: auto; margin-right: auto; }
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 32px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.68em;
+            text-align: left;
+        }
+        .next-steps-grid li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(22, 41, 62, 0.1);
+            line-height: 1.4;
+        }
+        .next-steps-grid li:nth-last-child(-n+2) { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- =================== SLIDE 1: TITLE =================== -->
+            <section class="title-slide">
+                <div class="title-slide-content">
+                    <div class="logos">
+                        <img src="TS___Hjerteforeningen_partnership_logo.svg" alt="Tæl Skridt × Hjerteforeningen">
+                    </div>
+                    <h1>Analyse og plan frem mod TS3 2026</h1>
+                    <div class="subtitle">Tæl Skridt For Hjertet — 31. august til 13. september 2026</div>
+                    <div class="meta">Forberedt af Quick Info · maj 2026</div>
+                </div>
+            </section>
+
+            <!-- =================== SLIDE 2: WHAT WE DID + DATA SOURCES =================== -->
+            <section>
+                <div class="slide-header">
+                    <img src="TS_logo_vector.svg" alt="TS">
+                    <span>Datagrundlag</span>
+                </div>
+                <h2>Hvad vi har gjort, og hvor data kommer fra</h2>
+                <p style="font-size: 0.85em; color: var(--ts-grey);">Vi har gennemgået fire års adfærdsdata fra både marketingsitet og platformen for at forstå målgruppen og finde de højeste-løftestang-områder for den næste kampagne.</p>
+
+                <div class="data-source">
+                    <h3>Google Analytics</h3>
+                    <p>4,5 års data om hvem målgruppen er — demografi, geografi, sprog, interesser og kanalmix.</p>
+                    <div class="meta-line">Jan 2022 – maj 2026 · ~25.400 brugere · kun marketingsitet</div>
+                </div>
+
+                <div class="data-source">
+                    <h3>Microsoft Clarity — marketingsitet</h3>
+                    <p>Detaljeret adfærd: scroll-dybde, klik, enhedsmønstre, timing under én fuld kampagne-cyklus.</p>
+                    <div class="meta-line">Aug – dec 2025 · ~70.000 sessions · TS3 2025 plus omkring</div>
+                </div>
+
+                <div class="data-source">
+                    <h3>Microsoft Clarity — platformen</h3>
+                    <p>Adfærd inde i app.taelskridt.dk: hvordan brugerne logger skridt, navigerer statistik, bruger lykkehjul, redigerer profil.</p>
+                    <div class="meta-line">Aug 2025 – 17. mar 2026 · ~549.000 sessions · tre kampagner (TS3 2025, TS4 2025, TS1 2026)</div>
+                </div>
+
+                <p style="font-size: 0.7em; color: var(--ts-grey); margin-top: 18px;"><em>Bemærk: Clarity er pt. inaktiv på begge flader. Geninstallation er højeste prioritet inden TS3.</em></p>
+            </section>
+
+            <!-- =================== SLIDE 3: MAJOR FINDINGS — AUDIENCE =================== -->
+            <section class="slide-3">
+                <div class="slide-header">
+                    <img src="TS_logo_vector.svg" alt="TS">
+                    <span>Målgruppe</span>
+                </div>
+                <h2>Hvem målgruppen er</h2>
+                <p style="font-size: 0.85em;">En dansk kvinde i slut-40'erne til midt-60'erne, der bor i eller omkring København, arbejder på en dansk offentlig eller privat arbejdsplads, og betragter gang som en del af et godt liv — ikke som motion.</p>
+
+                <div class="stat-row">
+                    <div class="stat">
+                        <div class="number">94%</div>
+                        <div class="label">af brugerne er fra Danmark</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">59 / 41</div>
+                        <div class="label">kvinder / mænd (begge ens engagement)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">45+</div>
+                        <div class="label">60-70% af identificerede brugere</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">~10%</div>
+                        <div class="label">internationale kolleger på platformen</div>
+                    </div>
+                </div>
+
+                <div class="two-col" style="margin-top: 20px;">
+                    <div class="card">
+                        <h3>Adfærd</h3>
+                        <ul>
+                            <li>Mandag er den største dag — 50% mere trafik end andre hverdage</li>
+                            <li>Mobil og desktop er 50/50</li>
+                            <li>Windows + Edge dominerer på desktop (arbejdspladsens IT)</li>
+                            <li>Højtider: 06-08 og 10-13 (arbejdsdagens start og formiddag)</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3>Kreativ retning</h3>
+                        <ul>
+                            <li>Læn ind i gang, udeliv, rejse, madlavning, nyheder, livsstil</li>
+                            <li>Undgå unge fitness-troper og lycra-billeder</li>
+                            <li>Kvinder 50+ i danske arbejds- og hjemmekontekster fungerer bedst</li>
+                            <li>Mobile-first, ét tydeligt CTA pr. opslag</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================== SLIDE 4: PLATFORM FRICTION =================== -->
+            <section>
+                <div class="slide-header">
+                    <img src="TS_logo_vector.svg" alt="TS">
+                    <span>Platform-friktion</span>
+                </div>
+                <h2>Hvor der er friktion på platformen</h2>
+                <p style="font-size: 0.82em;">Platformen viser ægte engagement (4 min pr. session, 64% scroll-dybde) men også ægte friktion. Tre sider trækker hovedparten af problemerne.</p>
+
+                <div class="friction-list">
+                    <div class="friction-item">
+                        <div class="page">Indtast skridt-siden<br><em style="color: var(--ts-grey); font-size: 0.85em;">/steps/input/personal</em></div>
+                        <div class="signal"><strong>293.000 sessions</strong> besøger siden. <strong>108.000</strong> har dead clicks. <strong>105.000</strong> har quickback. <strong>56.000</strong> kaster JavaScript-fejl. Hovedaktiviteten i hele produktet — og den side med mest friktion.</div>
+                    </div>
+                    <div class="friction-item">
+                        <div class="page">Profil-redigering<br><em style="color: var(--ts-grey); font-size: 0.85em;">/users/edit</em></div>
+                        <div class="signal"><strong>21.000 quickback-klik</strong> ud af 47.000 sessions — <strong>45% quickback-rate</strong>. Brugere kommer ind, klikker, og forlader siden uden at gøre noget.</div>
+                    </div>
+                    <div class="friction-item">
+                        <div class="page">Holdstatistik<br><em style="color: var(--ts-grey); font-size: 0.85em;">/statistics/team</em></div>
+                        <div class="signal"><strong>250.000 sessions</strong>, <strong>94.000 dead clicks</strong>, og den højeste koncentration af rage clicks på platformen. Sandsynligvis en sorterbar tabel som ikke opfører sig som forventet.</div>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.7em; color: var(--ts-grey); margin-top: 18px;"><em>Marketingsitet har en helt anden type problem: scroll-dybde på kun 19,8% — to tredjedele af forsiden bliver aldrig set. Vi har det allerede med i planen.</em></p>
+            </section>
+
+            <!-- =================== SLIDE 5: UX PRIORITIES =================== -->
+            <section>
+                <div class="slide-header">
+                    <img src="TS_logo_vector.svg" alt="TS">
+                    <span>UX-prioriteter</span>
+                </div>
+                <h2>UX-prioriteter</h2>
+                <p style="font-size: 0.82em;">Rangeret efter løftestang. De første tre er de største — alt andet bygger ovenpå.</p>
+
+                <div class="priorities">
+                    <div class="priority">
+                        <div class="num">1</div>
+                        <div class="text"><strong>Geninstaller Clarity på begge flader</strong>Uden tracking går vi blinde ind i TS3. TS2 2026 kørte uden platform-data — det skal ikke ske igen. Skal stå inden midten af juni.</div>
+                    </div>
+                    <div class="priority">
+                        <div class="num">2</div>
+                        <div class="text"><strong>Indtast skridt-siden — dybde-analyse og rettelser</strong>Den vigtigste daglige handling i hele produktet, og den med mest friktion. Træk Clarity-optagelser, kategorisér problemer, koordinér rettelser med IT Heroes. Klar til lancering inden TS3 hvis muligt — ellers før TS4.</div>
+                    </div>
+                    <div class="priority">
+                        <div class="num">3</div>
+                        <div class="text"><strong>Forsidens øverste del</strong>Med 19,8% scroll-dybde skal alt vigtigt bo i den øverste del: kampagne-nedtælling, lige stor vægt på Vær med vs LOG IND, SammenholdsID-indgang, social proof. Klar inden juli.</div>
+                    </div>
+                    <div class="priority">
+                        <div class="num">4</div>
+                        <div class="text"><strong>Profilside, holdstatistik, Open Graph-preview</strong>Profilside (45% quickback) og holdstatistik (rage clicks) får fokuserede audits. OG-preview-kortet til Teams/SharePoint-deling er gratis distribution — vi tjekker det.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================== SLIDE 6: MARKETING PRIORITIES + PARTNERSHIP =================== -->
+            <section class="slide-6">
+                <div class="slide-header">
+                    <img src="hjerteforeningen_logo.svg" alt="Hjerteforeningen">
+                    <span>Marketing & partnerskab</span>
+                </div>
+                <h2>Marketing-prioriteter og Hjerteforeningen-vinklen</h2>
+
+                <div class="quote-block">
+                    "Hver 2. dansker får en hjertesygdom. Med Tæl Skridt For Hjertet går kolleger sammen om sundere hjerter — fordi alle skridt beskytter hjertet."
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <h3 style="font-size: 0.95em; margin-bottom: 14px;">Primære marketing-træk</h3>
+                        <ul style="font-size: 0.73em; line-height: 1.45;">
+                            <li><strong>Fastholdelse først</strong> — målrettet e-mail til tidligere holdkaptajner med Hjerteforeningen-vinkel</li>
+                            <li><strong>LinkedIn-test</strong> for SammenholdsID til HR/kommunikation/trivsel (~7.000 kr i juni)</li>
+                            <li><strong>Skaler betalt Google</strong> — engagerer bedst, underspendt i dag</li>
+                            <li><strong>UTM-oprydning</strong> så vi kan måle hvad der virker</li>
+                            <li><strong>Mandag-morgen e-mail</strong> — testet mod søndag aften</li>
+                        </ul>
+                    </div>
+                    <div class="card accent">
+                        <h3 style="font-size: 0.95em;">Kampagne-idéer på partnerskabet</h3>
+                        <ul>
+                            <li><strong>Hver 2. dansker</strong> — datapointet som hovedkrog</li>
+                            <li><strong>Pulsér hverdagen</strong> — video/karrusel om skridt på arbejdsdagen</li>
+                            <li><strong>Holdkaptajn-tilbagekomst</strong> — personlig e-mail til tidligere kaptajner</li>
+                            <li><strong>Sundhed på arbejdspladsen</strong> — HR-vinkel for SammenholdsID</li>
+                            <li><strong>Walk of Fame for hjertet</strong> — under kampagnen</li>
+                            <li><strong>DR / nyheds-pitch</strong> — Hjerteforeningen + 48.000 deltagere er en fortælling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.7em; color: var(--ts-grey); margin-top: 18px;"><em>Samlet marketingbudget: 30.000 kr fordelt på fem måneder. Vægtet til august, hvor intentionen er højest.</em></p>
+            </section>
+
+            <!-- =================== SLIDE 7: 6-MONTH PLAN OVERVIEW =================== -->
+            <section class="slide-7">
+                <div class="slide-header">
+                    <img src="TS_logo_vector.svg" alt="TS">
+                    <span>Plan-overblik</span>
+                </div>
+                <h2>Planen i fire faser</h2>
+                <p style="font-size: 0.82em;">15 uger fra nu (1. juni) til kampagnen slutter (13. september), inkl. en realistisk sommerpause.</p>
+
+                <div class="timeline">
+                    <div class="phase phase-1">
+                        <div class="phase-num">Fase 1</div>
+                        <div class="phase-title">Fundament</div>
+                        <div class="phase-dates">1.–28. juni · 4 uger</div>
+                        <div class="phase-desc">Tracking geninstallation. UTM-oprydning. LinkedIn-test live. Evergreen-indhold og listebygning. Forside-redesign påbegyndt.</div>
+                    </div>
+                    <div class="phase phase-2">
+                        <div class="phase-num">Fase 2</div>
+                        <div class="phase-title">Optakt + sommer</div>
+                        <div class="phase-dates">29. juni – 9. aug · 6 uger</div>
+                        <div class="phase-desc">Hjerteforeningen-annoncering før sommer. Sommerpause for betalt. TS3 kreativ-produktion. Step-input rettelser designet.</div>
+                    </div>
+                    <div class="phase phase-3">
+                        <div class="phase-num">Fase 3</div>
+                        <div class="phase-title">Lancering</div>
+                        <div class="phase-dates">10.–30. aug · 3 uger</div>
+                        <div class="phase-desc">Aktiv rekruttering. Betalt Meta, Google, e-mail-sekvens, LinkedIn skaleret. Site/platform freeze fra 24. august.</div>
+                    </div>
+                    <div class="phase phase-4">
+                        <div class="phase-num">Fase 4</div>
+                        <div class="phase-title">Kampagnen kører</div>
+                        <div class="phase-dates">31. aug – 13. sep · 2 uger</div>
+                        <div class="phase-desc">Stop rekruttering. Daglig overvågning af platform-friktion. Motivation, lykkehjul, holdkaptajn-shout-outs. Daglig bug-triage.</div>
+                    </div>
+                </div>
+
+                <div class="three-col" style="margin-top: 30px;">
+                    <div class="card navy">
+                        <h3>Nøglemilepæle</h3>
+                        <ul style="margin-left: 1em;">
+                            <li>Uge 1: Clarity geninstalleret</li>
+                            <li>Uge 5: partnerskab annonceret</li>
+                            <li>Uge 12: alt frosset</li>
+                            <li>Uge 14: TS3 live</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Budget</h3>
+                        <ul>
+                            <li>LinkedIn-test: 7.000 kr</li>
+                            <li>Betalt Meta: 12.000 kr</li>
+                            <li>Betalt Google: 6.000 kr</li>
+                            <li>LinkedIn-skalering: 3.000 kr</li>
+                            <li>Kreativ: 2.000 kr</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Mål</h3>
+                        <ul>
+                            <li>Genaktivér tidligere holdkaptajner</li>
+                            <li>Tilfør nye arbejdspladser</li>
+                            <li>Vækst nyhedsbrev +1.500</li>
+                            <li>Få platform-tracking klar inden lancering</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================== SLIDE 8: DOWNLOAD + NEXT STEPS =================== -->
+            <section class="download-slide">
+                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 30px;">
+                    <img src="TS_logo_vector.svg" alt="TS" style="height: 50px;">
+                    <img src="hjerteforeningen_logo.svg" alt="Hjerteforeningen" style="height: 50px;">
+                </div>
+
+                <h1>Den fulde plan</h1>
+                <p>Hent Excel-filen med den fulde plan: ugentligt overblik, UX-prioriteter, marketing-aktiviteter, budget og succeskriterier — 16 uger detaljeret op.</p>
+
+                <a href="taelskridt-plan-dk.xlsx" class="download-btn" download>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5z"/>
+                    </svg>
+                    Hent planen (Excel, 18 KB)
+                </a>
+
+                <div class="next-steps wide">
+                    <h3>Næste skridt</h3>
+                    <ul class="next-steps-grid">
+                        <li><strong>Denne uge:</strong> Geninstallér Clarity-script på taelskridt.dk og app.taelskridt.dk</li>
+                        <li><strong>Inden midten af juni:</strong> LinkedIn-test live, UTM-konventioner indført, forside-redesign påbegyndt</li>
+                        <li><strong>Inden midten af juli:</strong> TS3 kreativt brief leveret til produktion, partnerskab annonceret</li>
+                        <li><strong>24. august:</strong> Site og platform frosset frem til kampagne-slut</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            controls: true,
+            progress: true,
+            transition: 'slide',
+            width: 1280,
+            height: 800,
+            margin: 0.04,
+            minScale: 0.4,
+            maxScale: 1.5
+        });
+    </script>
+</body>
+</html>
